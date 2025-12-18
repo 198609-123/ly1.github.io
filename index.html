@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>胡图图的简历</title>
+    <style>
+        /* 全局样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 栅格容器核心样式 - 简历整体布局骨架 */
+        .grid-container {
+            display: grid;
+            grid-template-areas:
+                'nav nav nav nav'          /* 导航栏占整行 */
+                'audio video video video'  /* 音频1列，视频3列 */
+                'profile profile profile profile' /* 个人简历占整行 */
+                'edu award intern intern' /* 教育/获奖各1列，实习2列 */
+                'backtop backtop backtop backtop'; /* 返回顶部占整行 */
+            grid-gap: 15px; /* 模块间距 */
+            padding: 20px;
+            grid-template-columns: 1fr 1fr 1fr 1fr; /* 4列等宽基础布局 */
+            grid-template-rows: auto auto auto auto auto; /* 行高自适应内容 */
+            max-width: 1200px; /* 限制最大宽度，避免大屏拉伸 */
+            margin: 0 auto; /* 居中显示 */
+        }
+
+        /* 栅格区域分配类名 */
+        .grid-nav { grid-area: nav; }
+        .grid-audio { grid-area: audio; }
+        .grid-video { grid-area: video; }
+        .grid-profile { grid-area: profile; }
+        .grid-edu { grid-area: edu; }
+        .grid-award { grid-area: award; }
+        .grid-intern { grid-area: intern; }
+        .grid-backtop { grid-area: backtop; }
+
+        /* 导航栏样式（保留原有样式并适配栅格） */
+        .nav {
+            background-color: #000000;
+            text-align: center;
+            width: 100%;
+            padding: 5px 0;
+        }
+        .nav a {
+            display: inline-block;
+            background-color: #1c0eb0;
+            color: rgb(7, 58, 241);
+            text-align: center;
+            padding-top: 10px;
+            text-decoration: none;
+            width: 24%;
+            height: 50px;
+            font: 40px 黑体;
+            border-radius: 4px; /* 增加圆角优化视觉 */
+        }
+        .nav a:hover {
+            background-color: #2b1ed8; /* 鼠标悬浮效果 */
+        }
+
+        /* 全局字体样式 */
+        body {
+            font-family: 宋体;
+            background-color: #11fb09; /* 页面背景色优化 */
+        }
+
+        /* 个人简历模块样式 */
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #000;
+            float: left;
+            margin: 0 20px 20px 0;
+        }
+        .profile-wrap {
+            overflow: hidden; /* 清除float浮动影响 */
+            padding: 15px;
+            background-color: #f00404;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 轻微阴影提升质感 */
+        }
+
+        /* 内容文本样式 */
+        .content-text {
+            font-size: 24px;
+            line-height: 1.8; /* 行高优化，提升可读性 */
+        }
+
+        /* 各经历模块样式 */
+        .edu-wrap, .award-wrap, .intern-wrap {
+            padding: 15px;
+            background-color: #edfe05;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* 标题样式 */
+        h3 {
+            margin-bottom: 15px;
+            font-size: 28px;
+            color: #1c0eb0;
+            border-bottom: 2px solid #1c0eb0;
+            padding-bottom: 8px;
+        }
+
+        /* 音视频模块样式 */
+        .audio-wrap, .video-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            background-color: #a804f5;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        audio {
+            width: 100%;
+        }
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* 返回顶部样式 */
+        .back-top {
+            text-align: right;
+            padding: 10px 0;
+        }
+        .back-top a {
+            font-size: 20px;
+            color: #1c0eb0;
+            text-decoration: none;
+            padding: 8px 15px;
+            background-color: #f608e2;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .back-top a:hover {
+            background-color: #f40808;
+        }
+
+        /* 滚动文字样式优化 */
+        marquee {
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        /* 响应式适配：小屏幕（768px以下）调整栅格布局 */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-areas:
+                    'nav nav nav nav'
+                    'audio audio audio audio'
+                    'video video video video'
+                    'profile profile profile profile'
+                    'edu edu edu edu'
+                    'award award award award'
+                    'intern intern intern intern'
+                    'backtop backtop backtop backtop';
+                grid-template-columns: 1fr; /* 小屏幕单列布局 */
+                padding: 10px;
+            }
+            .nav a {
+                font-size: 24px;
+                height: 40px;
+                padding-top: 8px;
+                width: 48%; /* 小屏幕导航分两列 */
+                margin: 2px 0;
+            }
+            .content-text {
+                font-size: 18px;
+            }
+            h3 {
+                font-size: 22px;
+            }
+            .profile-img {
+                width: 150px;
+                height: 150px;
+                margin: 0 10px 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a name="顶部"></a>
+
+    <!-- 栅格容器：包裹所有简历内容 -->
+    <div class="grid-container">
+        <!-- 导航栏模块 -->
+        <div class="grid-nav">
+            <div class="nav">
+                <a href="#个人简历">个人简历</a>
+                <a href="#教育经历">教育经历</a>
+                <a href="#获奖经历">获奖经历</a>
+                <a href="#实习经历">实习经历</a>
+            </div>
+        </div>
+
+        <!-- 音频模块 -->
+        <div class="grid-audio audio-wrap">
+            <audio controls autoplay loop muted preload="metadata">
+                <source src="M800001TTsAm1gf1kQ.mp3" type="audio/mpeg">
+                您的浏览器不支持 audio 标签。
+            </audio>
+        </div>
+
+        <!-- 视频模块 -->
+        <div class="grid-video video-wrap">
+            <video controls autoplay loop muted preload="metadata" width="400px" height="300px" poster="">
+                <source src="屏幕录制 2025-11-27 181745.mp4" type="video/mp4">
+                您的浏览器不支持 video 标签。
+            </video>
+        </div>
+
+        <!-- 个人简历模块 -->
+        <div class="grid-profile profile-wrap">
+            <h3 id="个人简历">个人简历</h3>
+            <img src="hutt.jpg" title="胡图图" alt="胡图图" class="profile-img">
+            <marquee width="400px" height="200px" bgcolor="lightblue" 
+                    behavior="up" direction="up" scrollamount="2" loop="infinite"
+                    onmouseover="this.stop()" onmouseout="this.start()" scrolldelay="100ms">
+                <p class="content-text">胡图图，翻斗花园知名小天才，2018年出生于翻斗市，北京大学信息工程学院数据科学与大数据技术专业在读，热爱编程与数据分析，性格开朗活泼～</p>
+            </marquee>
+            <p class="content-text">
+                胡图图<br><br>
+                电话：17823976236 <br><br>
+                邮箱：3499673416@qq.com <br><br>
+                地址：北京大学<br><br>
+            </p>
+        </div>
+
+        <!-- 教育经历模块 -->
+        <div class="grid-edu edu-wrap">
+            <h3 id="教育经历">教育经历</h3>
+            <p class="content-text">
+                <a href="http://pku.edu.cn" target="_blank">北京大学</a><br><br>
+                信息工程学院<br><br>
+                数据科学与大数据技术 2024——2028<br>
+            </p>
+            <p class="content-text">
+                令人满意的作品<a href="十三枪.html" target="_blank" title="十三枪">十三枪</a><br>
+            </p>
+            <p class="content-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
+                In error consectetur quod delectus earum dolor.<br>
+                Ut hic corporis neque porro eius iusto modi,<br>
+                pariatur beatae illum aspernatur fugiat esse facere?
+            </p>
+        </div>
+
+        <!-- 获奖经历模块 -->
+        <div class="grid-award award-wrap">
+            <h3 id="获奖经历">获奖经历</h3>
+            <p class="content-text">
+                诺贝尔文学奖<br>
+                诺贝尔化学奖<br>
+                翻斗花园吹牛大奖<br>
+            </p>
+            <p class="content-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
+                In error consectetur quod delectus earum dolor.<br>
+                Ut hic corporis neque porro eius iusto modi,<br>
+                pariatur beatae illum aspernatur fugiat esse facere?
+            </p>
+        </div>
+
+        <!-- 实习经历模块 -->
+        <div class="grid-intern intern-wrap">
+            <h3 id="实习经历">实习经历</h3>
+            <p class="content-text">
+                翻斗幼儿园计算机院长
+            </p>
+            <p class="content-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. <br>
+                In error consectetur quod delectus earum dolor.<br>
+                Ut hic corporis neque porro eius iusto modi,<br>
+                pariatur beatae illum aspernatur fugiat esse facere?
+            </p>
+        </div>
+
+        <!-- 返回顶部模块 -->
+        <div class="grid-backtop back-top">
+            <a href="#顶部">返回顶部</a>
+        </div>
+    </div>
+</body>
+</html>
